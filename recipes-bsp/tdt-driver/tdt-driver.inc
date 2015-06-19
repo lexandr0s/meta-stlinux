@@ -135,6 +135,11 @@ do_install() {
 			CCFLAGSY="-I${STAGING_DIR_HOST}/usr/include" \
 			INSTALL_MOD_PATH=${D} modules_install
 		mkdir ${D}/lib/modules/$i
+		# if a custom pti.ko is present, overwrite the tdt one
+	        if [ -e ${BINARY_PTI_NP_PATH}/pti_${STM_PATCH_STR}.ko ]; then
+	        	echo "Found custom pti.."
+			install -m 644 ${BINARY_PTI_NP_PATH}/pti_${STM_PATCH_STR}.ko ${D}/lib/modules/${KERNEL_VERSION}/extra/pti/
+       		fi
 		mv ${D}/lib/modules/${KERNEL_VERSION} ${D}/lib/modules/$i
 	done
 	# $PWD is git-7111
