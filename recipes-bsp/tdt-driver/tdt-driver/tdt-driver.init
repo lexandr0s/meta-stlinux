@@ -56,10 +56,12 @@ if $SPARK7162; then
 	STMCORE_DISP=stmcore-display-sti7105
 	FRONTEND_MOD=spark7162
 	AVS_PARAM="type=avs_pio"
+	DVB_PARAM="duckbox=0"
 else
 	STMCORE_DISP=stmcore-display-sti7111
 	FRONTEND_MOD=stv090x
 	AVS_PARAM="type=avs_pio"
+	DVB_PARAM="duckbox=0"
 fi
 read KVER < /proc/sys/kernel/osrelease
 grep -q uinput /lib/modules/${KVER}/modules.dep || depmod -a
@@ -97,7 +99,7 @@ im $FRONTEND_MOD
 im pti waitMS=20 videoMem=4096
 im stm_monitor
 im stmsysfs
-im stmdvb
+im stmdvb $DVB_PARAM
 im player2 discardlateframe=0
 im sth264pp
 im stmalloc
